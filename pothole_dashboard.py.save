@@ -1,0 +1,104 @@
+import streamlit as st
+import pandas as pd
+import pydeck as pdk
+
+# -----------------------
+# Page config
+# -----------------------
+st.set_page_config(page_title="City Dashboard", layout="wide", page_icon="🏙️")
+st.title("🏙️ City Cleanliness & Pothole Dashboard")
+st.markdown("Track potholes and cleanliness status across your city with interactive maps and tables.")
+
+# -----------------------
+# Load CSV into session_state
+# -----------------------
+if 'reports' not in st.session_state:
+    st.session_state.reports = pd.read_csv("potholes.csv")
+
+# -----------------------
+# Sidebar filters
+# -----------------------
+st.sidebar.header("Filters")
+status_filter = st.sidebar.multiselect(
+    "Select Status to Display",
+    ["Clean", "Needs Repair", "Dirty"],
+    default=["Clean", "Needs Repair", "Dirty"]
+)
+
+# Filter data
+filtered_reports = st.session_state.reports[st.session_state.reports["Status"].isin(status_filter)]
+
+# -----------------------
+# Color picker
+# -----------------------
+def color_picker(status):
+    if status == "Clean":
+        return [0, 200, 0]      # Green
+    elif status == "Needs Repair":
+        return [255, 255, 0]    # Yellow
+    else:
+        return [200, 0, 0]      # Red
+
+# -----------------------
+# Main layout
+# -----------------------
+col1, col2 = st.columns([1, 2])
+
+# Left column: table
+with col1:
+    st.subheader("Reports Table")
+    st.dataframe(filtered_reports.reset_index(drop=True))
+
+# Right column: map
+with col2:
+    st.subheader("City Map")
+    layer = pdk.Layer(
+        "ScatterplotLayer",
+        data=filtered_reports,
+        get_position='[Longitude, Latitude]',
+        get_radius=200,
+        get_fill_color=[color_picker(x) for x in filtered_reports["Status"]],
+        pickable=True,
+    )
+
+    view_state = pdk.ViewState(
+        latitude=17.385,
+        longitude=78.486,
+        zoom=13
+    )
+
+    deck = pdk.Deck(
+        layers=[layer],
+        initial_view_state=view_state,
+        tooltip={"text": "{Area} ({Landmark})\nStatus: {Status}\nSeverity: {Severity}"}
+    )
+
+    st.pydeck_chart(deck)
+
+# -----------------------
+# Add new report
+# -----------------------
+st.subheader("Add New Report")
+with st.form("report_form"):
+    area = st.text_input("Area / Street")
+    landmark = st.text_input("Nearest Landmark")
+    latitude = st.number_input("Latitude", value=17.385)
+    longitude = st.number_input("Longitude", value=78.486)
+    status = st.selectbox("Status", ["Clean", "Dirty", "Needs Repair"])
+    severity = st.selectbox("Severity (if pothole)", ["", "Low", "Medium", "High"])
+    submitted = st.form_submit_button("Add Report")
+
+    if submitted:
+        new_id = st.session_state.reports["ID"].max() + 1 if "ID" in st.session_state.reports.columns else 1
+        new_report = pd.DataFrame({
+            "ID": [new_id],
+            "Area": [area],
+            "Landmark": [landmark],
+            "Latitude": [latitude],
+            "Longitude": [longitude],
+            "Status": [status],
+            "Severity": [severity]
+        })
+        st.session_state.reports = pd.concat([st.session_state.reports, new_report], ignore_index=True)
+        st.success(f"✅ Report for {area} added!")
+

@@ -1,0 +1,31 @@
+Area,Landmark,Latitude,Longitude,Status,Severity
+Street 1,Mall,17.3850,78.4860,Clean,
+Street 2,School,17.3860,78.4870,Dirty,High
+Street 3,Hospital,17.3870,78.4880,Needs Repair,Medium
+Street 4,Park,17.3880,78.4890,Clean,
+Street 5,Library,17.3890,78.4900,Dirty,Low
+Street 6,Bus Stop,17.3900,78.4910,Needs Repair,High
+Street 7,Metro Station,17.3910,78.4920,Clean,
+Street 8,Market,17.3920,78.4930,Dirty,Medium
+Street 9,Temple,17.3930,78.4940,Needs Repair,Low
+Street 10,Church,17.3940,78.4950,Clean,
+Street 11,Post Office,17.3950,78.4960,Dirty,High
+Street 12,Police Station,17.3960,78.4970,Needs Repair,Medium
+Street 13,Fire Station,17.3970,78.4980,Clean,
+Street 14,College,17.3980,78.4990,Dirty,Low
+Street 15,Stadium,17.3990,78.5000,Needs Repair,High
+Street 16,Hotel,17.4000,78.5010,Clean,
+Street 17,Cinema,17.4010,78.5020,Dirty,Medium
+Street 18,Mosque,17.4020,78.5030,Needs Repair,Low
+Street 19,Temple 2,17.4030,78.5040,Clean,
+Street 20,Supermarket,17.4040,78.5050,Dirty,High
+Street 21,Bank,17.4050,78.5060,Needs Repair,Medium
+Street 22,Pharmacy,17.4060,78.5070,Clean,
+Street 23,Community Hall,17.4070,78.5080,Dirty,Low
+Street 24,Park 2,17.4080,78.5090,Needs Repair,High
+Street 25,Gym,17.4090,78.5100,Clean,
+Street 26,Playground,17.4100,78.5110,Dirty,Medium
+Street 27,Theater,17.4110,78.5120,Needs Repair,Low
+Street 28,Restaurant,17.4120,78.5130,Clean,
+Street 29,Shopping Mall,17.4130,78.5140,Dirty,High
+Street 30,Hospital 2,17.4140,78.5150,Needs Repair,Medium
